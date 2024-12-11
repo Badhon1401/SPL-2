@@ -33,7 +33,7 @@ const SidebarLeft = () => {
           {options.map(({ id, label, icon }) => (
             <li key={id}>
               <button
-                className={`flex items-center w-full text-left px-4 py-3 rounded-md transition-transform transform ${
+                className={`flex items-center w-full text-left px-2 py-3 rounded-md transition-transform transform ${
                   activeItem === id
                     ? "bg-blue-100 text-blue-800 scale-105"
                     : "text-gray-200 hover:bg-gray-700"

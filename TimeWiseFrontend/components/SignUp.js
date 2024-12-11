@@ -31,6 +31,8 @@ function SignUp() {
     }
     setError("");
     alert("Sign In successful!");
+    localStorage.getItem("isAuthenticated","true");
+    
   };
 
   return (

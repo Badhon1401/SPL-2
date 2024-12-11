@@ -8,12 +8,12 @@ const SidebarRight = () => {
   };
 
   const options = [
-    { id: "dashboard", label: "Dashboard", icon: <FaTachometerAlt className="mr-3" /> },
-    { id: "messages", label: "Messages", icon: <FaEnvelope className="mr-3" /> },
-    { id: "feedbacks", label: "Feedbacks", icon: <FaComments className="mr-3" /> },
-    { id: "search-users", label: "Search Users", icon: <FaSearch className="mr-3" /> },
-    { id: "settings", label: "Account Settings", icon: <FaUserCircle className="mr-3" /> },
-    { id: "friendlist", label: "My Friendlist", icon: <FaUserFriends className="mr-3" /> },
+    { id: "dashboard", label: "Dashboard", icon: <FaTachometerAlt className="mr-2" /> },
+    { id: "messages", label: "Messages", icon: <FaEnvelope className="mr-2" /> },
+    { id: "feedbacks", label: "Feedbacks", icon: <FaComments className="mr-2" /> },
+    { id: "search-users", label: "Search Users", icon: <FaSearch className="mr-2" /> },
+    { id: "settings", label: "Account Settings", icon: <FaUserCircle className="mr-2" /> },
+    { id: "friendlist", label: "My Friendlist", icon: <FaUserFriends className="mr-2" /> },
   ];
 
   return (
@@ -24,7 +24,7 @@ const SidebarRight = () => {
           <FaUserCircle className="text-3xl text-gray-800 mr-3" />
           <div className="flex flex-col w-full">
             <h2 className="text-xl font-bold text-gray-800 break-words">{/* Allows the name to break onto a new line */}
-              John Dadfadffadfadfe
+              John ghjhjdfadffadfadfe
             </h2>
             <p className="text-gray-600 text-sm break-words">{/* Allows the email to break onto a new line */}
               johndoaefdadfadfaadfde@gmail.com
@@ -46,7 +46,7 @@ const SidebarRight = () => {
             <li key={option.id}>
               <button
                 onClick={() => handleClick(`Navigating to ${option.label}`)}
-                className="flex items-center w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-opacity-50 transition-transform transform hover:scale-105"
+                className="flex items-center w-full px-2 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-opacity-50 transition-transform transform hover:scale-105"
               >
                 {option.icon}
                 {option.label}

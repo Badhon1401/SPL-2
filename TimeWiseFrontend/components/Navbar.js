@@ -70,9 +70,6 @@ const Navbar = React.memo(() => {
           <Link href="/" className="hover:text-gray-300">
             Home
           </Link>
-          <Link href="/register" className="hover:text-gray-300">
-            Register
-          </Link>
           <Link href="/about" className="hover:text-gray-300">
             About
           </Link>
