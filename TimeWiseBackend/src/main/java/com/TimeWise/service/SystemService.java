@@ -175,7 +175,7 @@ public class SystemService {
 
         List<User> user = userRepository.findByUserEmail(userEmail);
         if (user.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This User not found");
         }
 
         String code = UUID.randomUUID().toString().substring(0, 6).toUpperCase(); // Generate a 6-character code
