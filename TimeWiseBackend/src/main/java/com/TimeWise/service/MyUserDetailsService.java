@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // Query the user from the repository
         User user = userRepository.findByUserId(userId);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with ID: " + userId);
+            throw new UsernameNotFoundException("This User not found with ID: " + userId);
         }
 
         return new UserPrincipal(user);

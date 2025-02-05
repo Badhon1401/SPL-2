@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TimeWiseBackend/src/main/Resources/Resources.iml" filepath="$PROJECT_DIR$/TimeWiseBackend/src/main/Resources/Resources.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SPL-2.iml" filepath="$PROJECT_DIR$/.idea/SPL-2.iml" />
       <module fileurl="file://$PROJECT_DIR$/TimeWiseBackend/src/main/main.iml" filepath="$PROJECT_DIR$/TimeWiseBackend/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/TimeWiseBackend/src/test/test.iml" filepath="$PROJECT_DIR$/TimeWiseBackend/src/test/test.iml" />
