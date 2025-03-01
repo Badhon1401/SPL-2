@@ -1,6 +1,6 @@
 // app/page.js
 import { redirect } from "next/navigation";
-
+import { cookies } from 'next/headers';
 export const metadata = {
   title: "TimeWise - Home",
   description: "Welcome to TimeWise, manage your time and productivity.",
@@ -12,7 +12,7 @@ async function HomePage() {
   const token = cookieStore.get("timewise-auth-token")?.value;
 
   if (!token) {
-    redirect("/login");
+    redirect("/welcome");
   }
 
   redirect("/home");

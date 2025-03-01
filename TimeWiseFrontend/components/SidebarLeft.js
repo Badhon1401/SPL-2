@@ -1,53 +1,166 @@
 "use client";
-import { useState } from "react";
+
+import * as React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  FaTasks,
-  FaBullseye,
-  FaChartLine,
-  FaHistory,
-  FaUsers,
-  FaLaptopCode,
-  FaBell,
-  FaChartPie,
-} from "react-icons/fa";
+  ClipboardList,
+  TrendingUp,
+  History,
+  Play,
+  Users,
+  Bell,
+  PieChart,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/components/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-const SidebarLeft = () => {
-  const [activeItem, setActiveItem] = useState("");
+const menuItems = [
+  {
+    id: "tasks",
+    label: "My Tasks",
+    icon: ClipboardList,
+    route: "/home/task/mytasks",
+    color: "text-green-500",
+  },
+  {
+    id: "progress",
+    label: "My Progress",
+    icon: TrendingUp,
+    route: "/progress",
+    color: "text-purple-500",
+  },
+  {
+    id: "performance",
+    label: "Performance History",
+    icon: History,
+    route: "/performance",
+    color: "text-orange-500",
+  },
+  {
+    id: "create-session",
+    label: "Create Session",
+    icon: Play,
+    route: "/create-session",
+    color: "text-teal-500",
+  },
+  {
+    id: "teams",
+    label: "My Teams",
+    icon: Users,
+    route: "/teams",
+    color: "text-indigo-500",
+  },
+  {
+    id: "notifications",
+    label: "Notifications",
+    icon: Bell,
+    route: "/notifications",
+    color: "text-red-500",
+  },
+  {
+    id: "statistics",
+    label: "Statistics",
+    icon: PieChart,
+    route: "/statistics",
+    color: "text-pink-500",
+  },
+];
 
-  // Define services for TimeWise
-  const options = [
-    { id: "tasks", label: "My Tasks", icon: <FaTasks className="mr-3 text-green-500" /> },
-    { id: "progress", label: "My Progress", icon: <FaChartLine className="mr-3 text-purple-500" /> },
-    { id: "performance", label: "My Performance History", icon: <FaHistory className="mr-3 text-orange-500" /> },
-    { id: "create-session", label: "Create a Session", icon: <FaLaptopCode className="mr-3 text-teal-500" /> },
-    { id: "teams", label: "My Teams", icon: <FaUsers className="mr-3 text-indigo-500" /> },
-    { id: "notifications", label: "Reminders & Notifications", icon: <FaBell className="mr-3 text-red-500" /> },
-    { id: "statistics", label: "Statistics & Insights", icon: <FaChartPie className="mr-3 text-pink-500" /> },
-  ];
+export default function SidebarLeft() {
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
+  const sidebarWidth = isCollapsed ? "w-16" : "w-64";
+  const showLabels = !isCollapsed || isHovered;
 
   return (
-    <aside className="w-48 bg-gray-800 shadow-md fixed top-12 left-0 bottom-0 z-10 lg:block md:hidden hidden">
-      <div className="p-4">
-        <ul className="space-y-1 mt-4">
-          {options.map(({ id, label, icon }) => (
-            <li key={id}>
-              <button
-                className={`flex items-center w-full text-left px-4 py-3 rounded-md transition-transform transform ${
-                  activeItem === id
-                    ? "bg-blue-100 text-blue-800 scale-105"
-                    : "text-gray-200 hover:bg-gray-700"
-                }`}
-                onClick={() => setActiveItem(id)}
-              >
-                {icon}
-                <span className="font-medium">{label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </aside>
-  );
-};
+    <motion.aside
+      initial={false}
+      animate={{ width: isCollapsed ? 64 : 200 }}
+      className={cn(
+        "fixed top-16 left-0 bottom-0 z-30",
+        "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        "border-r",
+        "transition-all duration-300 ease-in-out",
+        "hidden lg:block","dark:bg-gray-800",      )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex flex-col h-full">
+        <div className="flex justify-end p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleCollapse}
+            className="h-6 w-6"
+          >
+            {isCollapsed ? (
+              <ChevronRight className="h-4 w-4" />
+            ) : (
+              <ChevronLeft className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
 
-export default SidebarLeft;
+        <ScrollArea className="flex-1 p-2 ">
+          <TooltipProvider>
+            <nav className="space-y-2">
+              {menuItems.map((item) => {
+                const isActive = pathname === item.route;
+                return (
+                  <Tooltip key={item.id} delayDuration={0}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={isActive ? "secondary" : "ghost"}
+                        className={cn(
+                          "w-full justify-start",
+                          isCollapsed && "justify-center"
+                        )}
+                        onClick={() => router.push(item.route)}
+                      >
+                        <item.icon
+                          className={cn("h-5 w-5 shrink-0", item.color)}
+                        />
+                        <AnimatePresence>
+                          {showLabels && (
+                            <motion.span
+                              initial={{ opacity: 0, width: 0 }}
+                              animate={{ opacity: 1, width: "auto" }}
+                              exit={{ opacity: 0, width: 0 }}
+                              className="ml-3 overflow-hidden whitespace-nowrap"
+                            >
+                              {item.label}
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </Button>
+                    </TooltipTrigger>
+                    {isCollapsed && !isHovered && (
+                      <TooltipContent side="right">
+                        {item.label}
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                );
+              })}
+            </nav>
+          </TooltipProvider>
+        </ScrollArea>
+      </div>
+    </motion.aside>
+  );
+}

@@ -1,48 +1,45 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import SidebarLeft from "@/components/SidebarLeft";
-import SidebarRight from "@/components/SidebarRight";
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-async function fetchUserData() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("timewise-auth-token")?.value;
+export default function HomePage() {
+  const router = useRouter();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!token) {
-    redirect("/welcome");
-  }
-
-  try {
-    const res = await fetch(
-      `${process.env.BACKEND_SERVER_URL}/api/users/account/personal/details`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store", // Disable caching for dynamic data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/api/users/account/details`);
+        const userData = await response.json();
+        if (userData) {
+          localStorage.setItem("TimeWiseUserData", JSON.stringify(userData));
+        } else {
+          router.push("/welcome");
+        }
+      } catch (err) {
+        router.push("/welcome");
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    );
+    };
 
-    if (!res.ok) {
-      redirect("/welcome");
-    }
+    fetchUserData();
+  }, [router]);
 
-    return res.json();
-  } catch (error) {
-    console.error("Failed to fetch user data:", error);
-    redirect("/welcome");
+  if (loading) {
+    return <div>Loading...</div>;
   }
-}
 
-export default async function HomePage() {
-  const userData = await fetchUserData();
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
-      <Navbar />
-      <SidebarLeft />
-      <SidebarRight userData={userData} />
+      {/* This is the root page for the home route. */}
+      {/* You can add content here if needed, but it will be rendered within the layout. */}
     </div>
   );
 }
